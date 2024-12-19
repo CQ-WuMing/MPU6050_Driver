@@ -75,6 +75,7 @@ void MPU6050_Read_Accel(void)//读取加速度
 	Ay = Accel_Y_RAW / 2048.0;
 	Az = Accel_Z_RAW  / 2048.0 - 0.5;//此处多减0.5是我的硬件问题，如果你硬件是好的，就不用减
 }
+//此处请特别注意！！！！！！我硬件有问题减了0.5！！！！你们用的时候可以先不减
 
 void MPU6050_Read_Gyro(void)//读取角速度
 {
@@ -124,7 +125,7 @@ void MPU6050_Read_Result(void){
 	pitch_g = pitch + Gy * 0.005;
 
 	//进行互补融合
-	const float alpha = 0.9;//这个0.9可以改，0-1之间的数，一般在0.9往上
+	const float alpha = 0.98;//这个0.9可以改，0-1之间的数，一般在0.95往上，一次增加0.01调试一下
 	roll = roll + (roll_a - roll_g ) *alpha;
 	pitch = pitch + (pitch_a - pitch_g) *alpha;
 	yaw = yaw_g;
