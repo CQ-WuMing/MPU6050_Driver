@@ -34,8 +34,9 @@ void MPU6050_Init(void)//初始化
 
 	HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR, WHO_AM_I_REG, 1, &check, 1, 1000);
 	//注意。我的板子I2C1给显示屏了，所以给陀螺仪的是I2C2，故用&hi2c2
-
-	if (check == 0x68)//寄存器文档最后一页写了WHO_AM_I_REG就是0x68
+	
+    //检查0x75这个地址的寄存器的默认值是不是0x68
+	if (check == 0x68)//寄存器文档最后一页写了WHO_AM_I_REG的默认值为0x68，大家不要将0x75这个寄存器地址和0x68默认值混淆，如还有疑问，可了解Mem_read函数的作用
 	{
 		//电源管理1
 		Data = 0x01;
